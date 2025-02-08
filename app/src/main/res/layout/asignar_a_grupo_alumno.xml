@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Alumno"
+            android:text="@string/label_alumno"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
@@ -35,7 +35,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Grupo"
+            android:text="@string/label_grupo"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp" />
@@ -50,6 +50,6 @@
             android:id="@+id/button_asociar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Asociar" />
+            android:text="@string/button_asociar" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

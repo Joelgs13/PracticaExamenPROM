@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">PruebaExamenPROM</string>
+    <string name="button_profesor">Profesor</string>
+    <string name="hint_usuario">Usuario</string>
+    <string name="hint_contrasena">Contraseña</string>
+    <string name="button_login">Loggearse como alumno</string>
+    <string name="button_drag_and_drop">Jugar Drag &amp; Drop</string>
+    <string name="button_fill_the_gaps">Jugar Fill the Gaps</string>
+    <string name="button_consultar_informacion">Consultar Información</string>
+    <string name="label_alumno">Alumno</string>
+    <string name="label_grupo">Grupo</string>
+    <string name="button_asociar">Asociar</string>
+    <string name="grupo">Grupo</string>
+    <string name="lista_alumnos">Lista de Alumnos</string>
+    <string name="nombre_grupo">Nombre del Grupo</string>
+    <string name="crear">Crear</string>
+    <string name="crear_alumno">Crear Alumno</string>
+    <string name="crear_grupo">Crear Grupo</string>
+    <string name="asignar_alumno">Asignar Alumno a Grupo</string>
+    <string name="consultar_puntuacion">Consultar Puntuación de Grupo</string>
 </resources>

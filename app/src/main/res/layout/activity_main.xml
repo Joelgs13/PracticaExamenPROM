@@ -22,7 +22,7 @@
             android:id="@+id/button_profesor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Profesor"
+            android:text="@string/button_profesor"
             android:layout_marginBottom="45dp" />
 
         <LinearLayout
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:hint="Usuario"
+                android:hint="@string/hint_usuario"
                 android:layout_marginBottom="16dp" />
 
             <EditText
@@ -45,17 +45,16 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPassword"
-                android:hint="Contraseña"
+                android:hint="@string/hint_contrasena"
                 android:layout_marginBottom="30dp" />
 
             <Button
                 android:id="@+id/button_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Loggearse como alumno" />
+                android:text="@string/button_login" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

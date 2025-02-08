@@ -22,27 +22,27 @@
             android:id="@+id/button_crear_alumno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Crear Alumno"
+            android:text="@string/crear_alumno"
             android:layout_marginBottom="16dp" />
 
         <Button
             android:id="@+id/button_crear_grupo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Crear Grupo"
+            android:text="@string/crear_grupo"
             android:layout_marginBottom="16dp" />
 
         <Button
             android:id="@+id/button_asignar_alumno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Asignar Alumno a Grupo"
+            android:text="@string/asignar_alumno"
             android:layout_marginBottom="16dp" />
 
         <Button
             android:id="@+id/button_consultar_puntuacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Consultar Puntuación de Grupo" />
+            android:text="@string/consultar_puntuacion" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

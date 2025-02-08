@@ -24,13 +24,13 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:hint="Nombre del Grupo"
+            android:hint="@string/nombre_grupo"
             android:layout_marginBottom="16dp" />
 
         <Button
             android:id="@+id/button_crear_grupo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Crear" />
+            android:text="@string/crear" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

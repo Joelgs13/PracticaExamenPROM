@@ -22,21 +22,21 @@
             android:id="@+id/button_drag_and_drop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Jugar Drag &amp; Drop"
+            android:text="@string/button_drag_and_drop"
             android:layout_marginBottom="16dp"/>
 
         <Button
             android:id="@+id/button_fill_the_gaps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Jugar Fill the Gaps"
+            android:text="@string/button_fill_the_gaps"
             android:layout_marginBottom="16dp"/>
 
         <Button
             android:id="@+id/button_consultar_informacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Consultar Información"/>
+            android:text="@string/button_consultar_informacion"/>
 
     </LinearLayout>
 
