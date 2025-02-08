@@ -5,6 +5,7 @@
     android:id="@+id/asignar_grupo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondomovil"
     tools:context="profesor.AsignarAlumnoAGrupo">
 
     <LinearLayout
@@ -24,13 +25,15 @@
             android:text="@string/label_alumno"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:textColor="#FFFFFF" />
 
         <Spinner
             android:id="@+id/spinner_alumno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:background="#A8C4FF" />
 
         <TextView
             android:layout_width="match_parent"
@@ -38,18 +41,22 @@
             android:text="@string/label_grupo"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:textColor="#FFFFFF" />
 
         <Spinner
             android:id="@+id/spinner_grupo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:background="#A8C4FF" />
 
         <Button
             android:id="@+id/button_asociar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_asociar" />
+            android:text="@string/button_asociar"
+            android:textColor="#FFFFFF"
+            android:background="#2184FF" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

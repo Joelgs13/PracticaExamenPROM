@@ -5,7 +5,8 @@
     android:id="@+id/consultar_puntos_propios"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="alumno.ConsultarPuntosPropios">
+    tools:context="alumno.ConsultarPuntosPropios"
+    android:background="@drawable/fondomovil">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
