@@ -9,12 +9,20 @@ import androidx.appcompat.app.AppCompatActivity
 import com.joel.pruebaexamenprom.R
 import com.joel.pruebaexamenprom.bbdd.ConexionDB
 
+/**
+ * Actividad que permite asignar un alumno a un grupo.
+ */
 class AsignarAlumnoAGrupo : AppCompatActivity() {
 
     private lateinit var spinnerAlumno: Spinner
     private lateinit var spinnerGrupo: Spinner
     private lateinit var buttonAsociar: Button
-
+    /**
+     * Metodo llamado cuando se crea la actividad.
+     * Configura los elementos visuales y carga los datos de alumnos y grupos.
+     *
+     * @param savedInstanceState Estado guardado de la actividad, si existe.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.asignar_a_grupo_alumno) // Carga el layout "asignar_a_grupo.xml"

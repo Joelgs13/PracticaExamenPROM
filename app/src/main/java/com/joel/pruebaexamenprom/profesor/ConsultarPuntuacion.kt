@@ -12,12 +12,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.joel.pruebaexamenprom.R
 import com.joel.pruebaexamenprom.bbdd.ConexionDB
 
+/**
+ * Actividad que permite consultar las puntuaciones de los alumnos por grupo.
+ */
 class ConsultarPuntuacion : AppCompatActivity() {
 
     private lateinit var spinnerGrupo: Spinner
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AlumnoAdapter
 
+    /**
+     * Metodo llamado cuando se crea la actividad.
+     * Configura los elementos visuales y carga los grupos en el Spinner.
+     *
+     * @param savedInstanceState Estado guardado de la actividad, si existe.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.consultar_puntuacion) // Carga el layout "consultar_puntuacion.xml"
@@ -53,6 +62,11 @@ class ConsultarPuntuacion : AppCompatActivity() {
         })
     }
 
+    /**
+     * Carga los alumnos pertenecientes al grupo seleccionado.
+     *
+     * @param grupoSeleccionado El nombre del grupo seleccionado.
+     */
     private fun cargarAlumnosPorGrupo(grupoSeleccionado: String) {
         Thread {
             val conexionDB = ConexionDB(applicationContext)

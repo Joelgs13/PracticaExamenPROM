@@ -12,6 +12,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.joel.pruebaexamenprom.R
 import com.joel.pruebaexamenprom.bbdd.ConexionDB
 
+/**
+ * Actividad que permite realizar una acción de arrastrar y soltar (Drag and Drop) con imágenes
+ * y verificar si se ha realizado correctamente el emparejamiento con los TextViews correspondientes.
+ *
+ * El usuario tiene que arrastrar las imágenes correspondientes (A, B, C) a los TextViews con las letras
+ * respectivas. Al soltar correctamente, se incrementa la puntuación, mientras que si se hace incorrectamente,
+ * se resta. Cuando todas las imágenes son correctamente emparejadas, la actividad finaliza y muestra un mensaje
+ * de felicitaciones.
+ */
 class DragAndDrop : AppCompatActivity() {
 
     private lateinit var conexionDB: ConexionDB
@@ -19,8 +28,15 @@ class DragAndDrop : AppCompatActivity() {
 
     // Contadores de cuántas imágenes han sido correctamente arrastradas
     private var correctas = 0
-    private val totalImágenes = 3
+    private val totalImagenes = 3
 
+    /**
+     * Inicializa la actividad y configura las vistas necesarias para realizar el arrastre de imágenes.
+     * Se obtiene el usuario actual desde SharedPreferences y se configura el comportamiento de arrastre y
+     * la lógica de verificación.
+     *
+     * @param savedInstanceState Bundle que contiene el estado previamente guardado de la actividad.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drag_and_drop)
@@ -54,6 +70,16 @@ class DragAndDrop : AppCompatActivity() {
         setupDragAndDrop(imageC, textC, "C")
     }
 
+    /**
+     * Configura el comportamiento de arrastrar y soltar (Drag and Drop) para una imagen y un TextView.
+     * Al soltar una imagen sobre el TextView correspondiente, se verifica si es correcta.
+     * Si lo es, se oculta la imagen y el texto, y se suman puntos al usuario. Si es incorrecto,
+     * la imagen regresa a su lugar original y se restan puntos.
+     *
+     * @param image La imagen que se arrastra.
+     * @param target El TextView sobre el que se suelta la imagen.
+     * @param letter La letra que se utiliza para verificar si la imagen es la correcta.
+     */
     private fun setupDragAndDrop(image: ImageView, target: TextView, letter: String) {
         // Configurar el Long Click en la imagen para iniciar el arrastre
         image.setOnLongClickListener {
@@ -88,7 +114,7 @@ class DragAndDrop : AppCompatActivity() {
                         correctas++
 
                         // Verificar si todas las imágenes fueron arrastradas correctamente
-                        if (correctas == totalImágenes) {
+                        if (correctas == totalImagenes) {
                             // Ocultar todas las imágenes y finalizar la actividad
                             hideImagesAndFinish()
                         }
@@ -118,6 +144,10 @@ class DragAndDrop : AppCompatActivity() {
         }
     }
 
+    /**
+     * Oculta todas las imágenes cuando se han arrastrado correctamente todas,
+     * muestra un mensaje de felicitación y regresa a la actividad anterior después de un breve retraso.
+     */
     private fun hideImagesAndFinish() {
         // Ocultar todas las imágenes
         val imageA: ImageView = findViewById(R.id.image_A)

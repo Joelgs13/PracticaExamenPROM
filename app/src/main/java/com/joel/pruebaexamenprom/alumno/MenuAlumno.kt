@@ -6,8 +6,21 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.joel.pruebaexamenprom.R
 
+/**
+ * Actividad que presenta un menú para que el alumno elija entre varias opciones:
+ * - Jugar a los juegos Drag & Drop y Fill The Gaps.
+ * - Consultar los puntos acumulados.
+ *
+ * Cada opción redirige al alumno a la actividad correspondiente.
+ */
 class MenuAlumno : AppCompatActivity() {
 
+    /**
+     * Metodo que se ejecuta cuando se crea la actividad.
+     * Establece la interfaz de usuario y configura los botones con sus respectivas acciones.
+     *
+     * @param savedInstanceState Bundle que contiene el estado previamente guardado de la actividad.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.alumno_menu)

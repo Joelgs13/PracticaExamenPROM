@@ -8,7 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import com.joel.pruebaexamenprom.R
 import com.joel.pruebaexamenprom.bbdd.ConexionDB
 
+/**
+ * Actividad que permite crear un nuevo grupo en la base de datos.
+ */
 class CrearGrupo : AppCompatActivity() {
+
+    /**
+     * Metodo llamado cuando se crea la actividad.
+     * Configura la interfaz de usuario y maneja el evento de creación de un nuevo grupo.
+     *
+     * @param savedInstanceState El estado guardado de la actividad, si existe.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.crear_grupo) // Carga el layout "crear_grupo.xml"
@@ -16,6 +26,10 @@ class CrearGrupo : AppCompatActivity() {
         val editTextNombreGrupo = findViewById<EditText>(R.id.editTextNombreGrupo)
         val buttonCrearGrupo = findViewById<Button>(R.id.button_crear_grupo)
 
+        /**
+         * Acción a realizar cuando se hace clic en el botón "Crear Grupo".
+         * Valida el campo de texto y si es válido, intenta crear el grupo en la base de datos.
+         */
         buttonCrearGrupo.setOnClickListener {
             val nombreGrupo = editTextNombreGrupo.text.toString()
 

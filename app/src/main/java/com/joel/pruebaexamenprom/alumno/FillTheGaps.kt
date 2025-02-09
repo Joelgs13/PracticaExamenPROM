@@ -11,22 +11,36 @@ import androidx.core.view.isVisible
 import com.joel.pruebaexamenprom.R
 import com.joel.pruebaexamenprom.bbdd.ConexionDB
 
+/**
+ * Actividad que presenta una serie de huecos en un texto donde el usuario debe completar
+ * las respuestas correctas en los campos correspondientes.
+ * Si todas las respuestas son correctas, el usuario recibe puntos y la actividad se finaliza,
+ * de lo contrario, se resta puntos por cada respuesta incorrecta.
+ */
 class FillTheGaps : AppCompatActivity() {
 
     private lateinit var conexionDB: ConexionDB
     private var usuarioActual: String? = null  // Usuario que inició sesión
 
+    /**
+     * Metodo que inicializa la actividad y establece las conexiones necesarias con las vistas de la interfaz,
+     * así como las acciones del botón "Confirmar".
+     * También se encarga de validar las respuestas del usuario y actualizar la puntuación.
+     *
+     * @param savedInstanceState Bundle que contiene el estado previamente guardado de la actividad.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fill_the_gaps)
 
-        // Inicializar conexión a la BD
+        // Inicializar conexión a la base de datos
         conexionDB = ConexionDB(this)
 
         // Obtener usuario desde SharedPreferences
         val sharedPreferences = getSharedPreferences("AlumnoPrefs", MODE_PRIVATE)
         usuarioActual = sharedPreferences.getString("nombre_alumno", null)
 
+        // Si no se encuentra el usuario, cerrar la actividad
         if (usuarioActual == null) {
             Toast.makeText(this, "Error: No se encontró el usuario", Toast.LENGTH_SHORT).show()
             finish() // Cerrar la actividad si no hay usuario
@@ -51,10 +65,9 @@ class FillTheGaps : AppCompatActivity() {
             val respuesta3 = editText3.text.toString().lowercase()
             val respuesta4 = editText4.text.toString().lowercase()
 
-
             var todasCorrectas = true
 
-            // Validar respuestas
+            // Validar respuestas y actualizar el texto con las respuestas correctas
             if (respuesta1 == "cinco") {
                 textoGrande.text = textoGrande.text.toString().replace("(1)", "cinco")
                 editText1.isEnabled = false  // Deshabilitar el campo
@@ -99,7 +112,7 @@ class FillTheGaps : AppCompatActivity() {
             if (todasCorrectas) {
                 Toast.makeText(this, "¡Lo hicimos bien!", Toast.LENGTH_SHORT).show()
                 // Sumar 100 puntos
-                puntos+=100
+                puntos += 100
                 usuarioActual?.let { usuario ->
                     conexionDB.actualizarPuntuacion(usuario, puntos)
                 }
@@ -110,7 +123,7 @@ class FillTheGaps : AppCompatActivity() {
                 usuarioActual?.let { usuario ->
                     conexionDB.actualizarPuntuacion(usuario, puntos)
                 }
-                puntos=0
+                puntos = 0
             }
         }
     }
