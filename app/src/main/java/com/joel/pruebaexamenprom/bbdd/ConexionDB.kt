@@ -156,23 +156,22 @@ class ConexionDB(context: Context) {
         return false
     }
 
-    // Función para obtener los datos de un Alumno
-    fun selectAlumno(idAlumno: Int): String? {
+
+
+    // Función para obtener todos los alumnos
+    fun obtenerAlumnos(): List<String> {
         val conexion = obtenerConexion()
-        var alumno: String? = null
+        val listaAlumnos = mutableListOf<String>()
 
         if (conexion != null) {
             try {
-                val query = "SELECT nombre, contrasenia, puntuacion FROM Alumno WHERE id_alumno = ?"
+                val query = "SELECT id_alumno, nombre FROM Alumno"
                 val statement: PreparedStatement = conexion.prepareStatement(query)
-                statement.setInt(1, idAlumno)
                 val resultSet: ResultSet = statement.executeQuery()
 
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     val nombre = resultSet.getString("nombre")
-                    val contrasenia = resultSet.getString("contrasenia")
-                    val puntuacion = resultSet.getInt("puntuacion")
-                    alumno = "Nombre: $nombre, Contrasenia: $contrasenia, Puntuación: $puntuacion"
+                    listaAlumnos.add(nombre)
                 }
             } catch (e: SQLException) {
                 e.printStackTrace()
@@ -180,23 +179,65 @@ class ConexionDB(context: Context) {
                 conexion.close()
             }
         }
-        return alumno
+        return listaAlumnos
     }
 
-    // Función para obtener los datos de un Grupo
-    fun selectGrupo(idGrupo: Int): String? {
+    // Función para obtener todos los grupos
+    fun obtenerGrupos(): List<String> {
         val conexion = obtenerConexion()
-        var grupo: String? = null
+        val listaGrupos = mutableListOf<String>()
 
         if (conexion != null) {
             try {
-                val query = "SELECT nombre_grupo FROM Grupo WHERE id_grupo = ?"
+                val query = "SELECT id_grupo, nombre_grupo FROM Grupo"
+                val statement: PreparedStatement = conexion.prepareStatement(query)
+                val resultSet: ResultSet = statement.executeQuery()
+
+                while (resultSet.next()) {
+                    val nombreGrupo = resultSet.getString("nombre_grupo")
+                    listaGrupos.add(nombreGrupo)
+                }
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } finally {
+                conexion.close()
+            }
+        }
+        return listaGrupos
+    }
+
+    // Función para asociar un alumno a un grupo
+    fun asignarAlumnoAGrupo(idAlumno: Int, idGrupo: Int): Boolean {
+        val conexion = obtenerConexion()
+        if (conexion != null) {
+            try {
+                val query = "UPDATE Alumno SET id_grupo = ? WHERE id_alumno = ?"
                 val statement: PreparedStatement = conexion.prepareStatement(query)
                 statement.setInt(1, idGrupo)
+                statement.setInt(2, idAlumno)
+                val rowsAffected = statement.executeUpdate()
+                return rowsAffected > 0  // Si se actualizó al menos una fila, es exitoso
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } finally {
+                conexion.close()
+            }
+        }
+        return false
+    }
+
+    // Función para obtener el ID del alumno por su nombre
+    fun obtenerIdPorNombreAlumno(nombreAlumno: String): Int? {
+        val conexion = obtenerConexion()
+        if (conexion != null) {
+            try {
+                val query = "SELECT id_alumno FROM Alumno WHERE nombre = ?"
+                val statement: PreparedStatement = conexion.prepareStatement(query)
+                statement.setString(1, nombreAlumno)
                 val resultSet: ResultSet = statement.executeQuery()
 
                 if (resultSet.next()) {
-                    grupo = resultSet.getString("nombre_grupo")
+                    return resultSet.getInt("id_alumno")
                 }
             } catch (e: SQLException) {
                 e.printStackTrace()
@@ -204,8 +245,32 @@ class ConexionDB(context: Context) {
                 conexion.close()
             }
         }
-        return grupo
+        return null  // Devuelve null si no encuentra el alumno
     }
+
+    // Función para obtener el ID del grupo por su nombre
+    fun obtenerIdPorNombreGrupo(nombreGrupo: String): Int? {
+        val conexion = obtenerConexion()
+        if (conexion != null) {
+            try {
+                val query = "SELECT id_grupo FROM Grupo WHERE nombre_grupo = ?"
+                val statement: PreparedStatement = conexion.prepareStatement(query)
+                statement.setString(1, nombreGrupo)
+                val resultSet: ResultSet = statement.executeQuery()
+
+                if (resultSet.next()) {
+                    return resultSet.getInt("id_grupo")
+                }
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } finally {
+                conexion.close()
+            }
+        }
+        return null  // Devuelve null si no encuentra el grupo
+    }
+
+
 
     // Función para actualizar un Alumno
     fun updateAlumno(idAlumno: Int, nombre: String, puntuacion: Int, idGrupo: Int): Boolean {
