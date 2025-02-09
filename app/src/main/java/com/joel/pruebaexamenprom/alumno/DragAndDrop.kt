@@ -17,6 +17,10 @@ class DragAndDrop : AppCompatActivity() {
     private lateinit var conexionDB: ConexionDB
     private var usuarioActual: String? = null  // Usuario que inició sesión
 
+    // Contadores de cuántas imágenes han sido correctamente arrastradas
+    private var correctas = 0
+    private val totalImágenes = 3
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drag_and_drop)
@@ -81,6 +85,14 @@ class DragAndDrop : AppCompatActivity() {
                             conexionDB.actualizarPuntuacion(usuario, 25)
                         }
 
+                        correctas++
+
+                        // Verificar si todas las imágenes fueron arrastradas correctamente
+                        if (correctas == totalImágenes) {
+                            // Ocultar todas las imágenes y finalizar la actividad
+                            hideImagesAndFinish()
+                        }
+
                     } else {
                         // Incorrecto: devolver la imagen a su estado original
                         Toast.makeText(this, "Incorrecto, intenta de nuevo", Toast.LENGTH_SHORT).show()
@@ -104,5 +116,24 @@ class DragAndDrop : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    private fun hideImagesAndFinish() {
+        // Ocultar todas las imágenes
+        val imageA: ImageView = findViewById(R.id.image_A)
+        val imageB: ImageView = findViewById(R.id.image_B)
+        val imageC: ImageView = findViewById(R.id.image_C)
+
+        imageA.visibility = View.GONE
+        imageB.visibility = View.GONE
+        imageC.visibility = View.GONE
+
+        // Volver al menú anterior (MenuAlumno)
+        Toast.makeText(this, "¡Felicidades, has completado la actividad!", Toast.LENGTH_SHORT).show()
+
+        // Esperar un segundo para mostrar el mensaje antes de regresar
+        android.os.Handler().postDelayed({
+            finish()  // Finaliza la actividad y vuelve a la anterior
+        }, 1000)
     }
 }
