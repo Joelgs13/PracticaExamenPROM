@@ -110,6 +110,30 @@ class ConexionDB(context: Context) {
         return false
     }
 
+    // Función para verificar si un grupo ya existe por su nombre
+    fun grupoExiste(nombreGrupo: String): Boolean {
+        val conexion = obtenerConexion()
+        if (conexion != null) {
+            try {
+                // Consulta para verificar si ya existe un grupo con el mismo nombre
+                val query = "SELECT COUNT(*) FROM Grupo WHERE nombre_grupo = ?"
+                val statement: PreparedStatement = conexion.prepareStatement(query)
+                statement.setString(1, nombreGrupo)
+                val resultSet: ResultSet = statement.executeQuery()
+
+                if (resultSet.next() && resultSet.getInt(1) > 0) {
+                    return true  // El grupo ya existe
+                }
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } finally {
+                conexion.close()
+            }
+        }
+        return false  // El grupo no existe
+    }
+
+
     fun selectAlumnoPorCredenciales(nombre: String, contrasenia: String): Boolean {
         val conexion = obtenerConexion()
         if (conexion != null) {
