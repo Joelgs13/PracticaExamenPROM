@@ -22,6 +22,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".profesor.MenuProfesor" />
+        <activity android:name=".profesor.CrearAlumno" />
+        <activity android:name=".profesor.CrearGrupo" />
+        <activity android:name=".profesor.ConsultarPuntuacion" />
+        <activity android:name=".profesor.AsignarAlumnoAGrupo" />
         <activity android:name=".alumno.MenuAlumno" />
     </application>
 
