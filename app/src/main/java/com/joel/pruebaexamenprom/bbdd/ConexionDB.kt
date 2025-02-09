@@ -1,6 +1,7 @@
 package com.joel.pruebaexamenprom.bbdd
 
 import android.content.Context
+import com.joel.pruebaexamenprom.profesor.Alumno
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.PreparedStatement
@@ -270,6 +271,31 @@ class ConexionDB(context: Context) {
         return null  // Devuelve null si no encuentra el grupo
     }
 
+    // Función para obtener los alumnos de un grupo específico
+    fun obtenerAlumnosPorGrupo(idGrupo: Int): List<Alumno> {
+        val conexion = obtenerConexion()
+        val listaAlumnos = mutableListOf<Alumno>()
+
+        if (conexion != null) {
+            try {
+                val query = "SELECT nombre, puntuacion FROM Alumno WHERE id_grupo = ?"
+                val statement: PreparedStatement = conexion.prepareStatement(query)
+                statement.setInt(1, idGrupo)
+                val resultSet: ResultSet = statement.executeQuery()
+
+                while (resultSet.next()) {
+                    val nombre = resultSet.getString("nombre")
+                    val puntuacion = resultSet.getInt("puntuacion")
+                    listaAlumnos.add(Alumno(nombre, puntuacion))
+                }
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } finally {
+                conexion.close()
+            }
+        }
+        return listaAlumnos
+    }
 
 
     // Función para actualizar un Alumno
