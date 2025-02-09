@@ -6,7 +6,7 @@
     <string name="button_login">Loggearse como alumno</string>
     <string name="button_drag_and_drop">Jugar Drag &amp; Drop</string>
     <string name="button_fill_the_gaps">Jugar Fill the Gaps</string>
-    <string name="button_consultar_informacion">Consultar Información</string>
+    <string name="button_consultar_puntos">Consultar Puntos</string>
     <string name="label_alumno">Alumno</string>
     <string name="label_grupo">Grupo</string>
     <string name="button_asociar">Asociar</string>

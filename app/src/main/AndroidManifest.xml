@@ -27,6 +27,9 @@
         <activity android:name=".profesor.ConsultarPuntuacion" />
         <activity android:name=".profesor.AsignarAlumnoAGrupo" />
         <activity android:name=".alumno.MenuAlumno" />
+        <activity android:name=".alumno.DragAndDrop" />
+        <activity android:name=".alumno.FillTheGaps" />
+        <activity android:name=".alumno.ConsultarPuntosPropios" />
     </application>
 
 </manifest>

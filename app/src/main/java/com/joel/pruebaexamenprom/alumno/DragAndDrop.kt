@@ -1,4 +1,12 @@
 package com.joel.pruebaexamenprom.alumno
 
-class DragAndDrop {
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.joel.pruebaexamenprom.R
+
+class DragAndDrop : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.drag_and_drop)
+    }
 }
