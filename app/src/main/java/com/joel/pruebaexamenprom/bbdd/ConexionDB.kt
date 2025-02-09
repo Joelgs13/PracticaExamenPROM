@@ -9,6 +9,12 @@ import java.sql.ResultSet
 import java.sql.SQLException
 import java.util.Properties
 
+/**
+ * Clase que gestiona la conexión a la base de datos y contiene métodos para realizar operaciones
+ * relacionadas con los alumnos, grupos y sus puntuaciones.
+ *
+ * @param context El contexto de la aplicación, utilizado para acceder a los recursos.
+ */
 class ConexionDB(context: Context) {
     private val dbUrl: String
     private val dbUser: String
@@ -34,6 +40,11 @@ class ConexionDB(context: Context) {
         dbPassword = properties.getProperty("password") ?: throw IllegalArgumentException("db_password no definido")
     }
 
+    /**
+     * Establece y devuelve una conexión a la base de datos utilizando los parámetros definidos.
+     *
+     * @return Una conexión a la base de datos, o null si no se pudo establecer.
+     */
     fun obtenerConexion(): Connection? {
         return try {
             DriverManager.getConnection(dbUrl, dbUser, dbPassword)
@@ -43,7 +54,13 @@ class ConexionDB(context: Context) {
         }
     }
 
-    // Modificamos la función insertAlumno para cumplir con los requisitos
+    /**
+     * Inserta un nuevo alumno en la base de datos con los parámetros proporcionados.
+     *
+     * @param usuario El nombre del alumno.
+     * @param contrasenia La contraseña del alumno.
+     * @return True si el alumno fue insertado correctamente, false en caso de error.
+     */
     fun insertAlumno(usuario: String, contrasenia: String): Boolean {
         val conexion = obtenerConexion()
         if (conexion != null) {
@@ -67,6 +84,13 @@ class ConexionDB(context: Context) {
         return false
     }
 
+    /**
+     * Verifica si un alumno con el nombre de usuario y contraseña proporcionados ya existe en la base de datos.
+     *
+     * @param usuario El nombre del alumno.
+     * @param contrasenia La contraseña del alumno.
+     * @return True si el alumno ya existe, false en caso contrario.
+     */
     fun alumnoExiste(usuario: String, contrasenia: String): Boolean {
         val conexion = obtenerConexion()
         if (conexion != null) {
@@ -91,7 +115,12 @@ class ConexionDB(context: Context) {
     }
 
 
-    // Función para insertar un nuevo Grupo en la tabla Grupo
+    /**
+     * Inserta un nuevo grupo en la base de datos con el nombre proporcionado.
+     *
+     * @param nombreGrupo El nombre del grupo.
+     * @return True si el grupo fue insertado correctamente, false en caso de error.
+     */
     fun insertGrupo(nombreGrupo: String): Boolean {
         val conexion = obtenerConexion()
         if (conexion != null) {
@@ -111,7 +140,12 @@ class ConexionDB(context: Context) {
         return false
     }
 
-    // Función para verificar si un grupo ya existe por su nombre
+    /**
+     * Verifica si un grupo con el nombre proporcionado ya existe en la base de datos.
+     *
+     * @param nombreGrupo El nombre del grupo.
+     * @return True si el grupo ya existe, false en caso contrario.
+     */
     fun grupoExiste(nombreGrupo: String): Boolean {
         val conexion = obtenerConexion()
         if (conexion != null) {
@@ -134,7 +168,13 @@ class ConexionDB(context: Context) {
         return false  // El grupo no existe
     }
 
-
+    /**
+     * Consulta un alumno por su nombre y contraseña y devuelve un objeto Alumno.
+     *
+     * @param nombre El nombre del alumno.
+     * @param contrasenia La contraseña del alumno.
+     * @return Un objeto Alumno si se encuentra en la base de datos, o null si no se encuentra.
+     */
     fun selectAlumnoPorCredenciales(nombre: String, contrasenia: String): Alumno? {
         val conexion = obtenerConexion()
         var alumno: Alumno? = null
@@ -171,7 +211,11 @@ class ConexionDB(context: Context) {
 
 
 
-    // Función para obtener todos los alumnos
+    /**
+     * Obtiene una lista de todos los alumnos registrados en la base de datos.
+     *
+     * @return Una lista de los nombres de todos los alumnos.
+     */
     fun obtenerAlumnos(): List<String> {
         val conexion = obtenerConexion()
         val listaAlumnos = mutableListOf<String>()
@@ -195,7 +239,11 @@ class ConexionDB(context: Context) {
         return listaAlumnos
     }
 
-    // Función para obtener todos los grupos
+    /**
+     * Obtiene una lista de todos los grupos registrados en la base de datos.
+     *
+     * @return Una lista de los nombres de todos los grupos.
+     */
     fun obtenerGrupos(): List<String> {
         val conexion = obtenerConexion()
         val listaGrupos = mutableListOf<String>()
@@ -219,7 +267,13 @@ class ConexionDB(context: Context) {
         return listaGrupos
     }
 
-    // Función para asociar un alumno a un grupo
+    /**
+     * Asocia un alumno a un grupo en la base de datos.
+     *
+     * @param idAlumno El ID del alumno.
+     * @param idGrupo El ID del grupo.
+     * @return True si el alumno fue asignado correctamente, false en caso de error.
+     */
     fun asignarAlumnoAGrupo(idAlumno: Int, idGrupo: Int): Boolean {
         val conexion = obtenerConexion()
         if (conexion != null) {
@@ -239,7 +293,12 @@ class ConexionDB(context: Context) {
         return false
     }
 
-    // Función para obtener el ID del alumno por su nombre
+    /**
+     * Obtiene el ID del alumno por su nombre en la base de datos.
+     *
+     * @param nombreAlumno El nombre del alumno.
+     * @return El ID del alumno si se encuentra, o null si no se encuentra.
+     */
     fun obtenerIdPorNombreAlumno(nombreAlumno: String): Int? {
         val conexion = obtenerConexion()
         if (conexion != null) {
@@ -261,7 +320,10 @@ class ConexionDB(context: Context) {
         return null  // Devuelve null si no encuentra el alumno
     }
 
-    // Función para obtener el ID del grupo por su nombre
+    /**
+     *
+     * lo mismo que el anterior pero por el grupo
+     */
     fun obtenerIdPorNombreGrupo(nombreGrupo: String): Int? {
         val conexion = obtenerConexion()
         if (conexion != null) {
@@ -283,6 +345,10 @@ class ConexionDB(context: Context) {
         return null  // Devuelve null si no encuentra el grupo
     }
 
+    /**
+     *
+     * obtiene los alumnos por el grupo
+     */
     fun obtenerAlumnosPorGrupo(idGrupo: Int): List<Alumno> {
         val conexion = obtenerConexion()
         val listaAlumnos = mutableListOf<Alumno>()
