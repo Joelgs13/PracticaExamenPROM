@@ -289,7 +289,7 @@ class ConexionDB(context: Context) {
 
         if (conexion != null) {
             try {
-                val query = "SELECT id_alumno, nombre, contrasenia, puntuacion, id_grupo FROM Alumno WHERE id_grupo = ?"
+                val query = "SELECT id_alumno, nombre, contrasenia, puntuacion, id_grupo FROM Alumno WHERE id_grupo = ? ORDER BY puntuacion DESC"
                 val statement: PreparedStatement = conexion.prepareStatement(query)
                 statement.setInt(1, idGrupo)
                 val resultSet: ResultSet = statement.executeQuery()
