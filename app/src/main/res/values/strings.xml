@@ -18,4 +18,10 @@
     <string name="crear_grupo">Crear Grupo</string>
     <string name="asignar_alumno">Asignar Alumno a Grupo</string>
     <string name="consultar_puntuacion">Consultar Puntuación de Grupo</string>
+    <string name="instrucciones_fill_the_gaps">¿Qué número va después del número cuatro? (1)\n¿Y después del número ocho? (2)\n¿Cual es la tercera letra del abecedario? (3)\n¿Y la primera? (4)</string>
+    <string name="hint_1">(1)</string>
+    <string name="hint_2">(2)</string>
+    <string name="hint_3">(3)</string>
+    <string name="hint_4">(4)</string>
+    <string name="confirmar">Confirmar</string>
 </resources>
