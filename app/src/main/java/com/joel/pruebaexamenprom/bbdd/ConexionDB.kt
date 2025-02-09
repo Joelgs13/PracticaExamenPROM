@@ -314,28 +314,59 @@ class ConexionDB(context: Context) {
         return listaAlumnos
     }
 
+    /**
+     * Obtiene la puntuación actual del alumno
+     */
+    fun obtenerPuntuacion(usuario: String, callback: (Int) -> Unit) {
+        Thread {
+            val conexion = obtenerConexion()
+            var puntuacion = 0
 
+            if (conexion != null) {
+                try {
+                    val query = "SELECT puntuacion FROM Alumno WHERE nombre = ?"
+                    val statement: PreparedStatement = conexion.prepareStatement(query)
+                    statement.setString(1, usuario)
+                    val resultSet: ResultSet = statement.executeQuery()
 
-    // Función para actualizar un Alumno
-    fun updateAlumno(idAlumno: Int, nombre: String, puntuacion: Int, idGrupo: Int): Boolean {
-        val conexion = obtenerConexion()
-        if (conexion != null) {
-            try {
-                val query = "UPDATE Alumno SET nombre = ?, puntuacion = ?, id_grupo = ? WHERE id_alumno = ?"
-                val statement: PreparedStatement = conexion.prepareStatement(query)
-                statement.setString(1, nombre)
-                statement.setInt(2, puntuacion)
-                statement.setInt(3, idGrupo)
-                statement.setInt(4, idAlumno)
-                statement.executeUpdate()
-                return true
-            } catch (e: SQLException) {
-                e.printStackTrace()
-                return false
-            } finally {
-                conexion.close()
+                    if (resultSet.next()) {
+                        puntuacion = resultSet.getInt("puntuacion")
+                    }
+
+                    statement.close()
+                } catch (e: SQLException) {
+                    e.printStackTrace()
+                }
             }
-        }
-        return false
+
+            // Llamamos al callback con la puntuación obtenida
+            callback(puntuacion)
+        }.start()
+    }
+
+    /**
+     * Actualiza la puntuación del alumno en la base de datos
+     */
+    fun actualizarPuntuacion(usuario: String, puntos: Int) {
+        Thread {
+            val conexion = obtenerConexion()
+            obtenerPuntuacion(usuario) { puntuacionActual ->
+                var nuevaPuntuacion = puntuacionActual + puntos
+                if (nuevaPuntuacion < 0) nuevaPuntuacion = 0  // Evitar valores negativos
+
+                if (conexion != null) {
+                    try {
+                        val query = "UPDATE Alumno SET puntuacion = ? WHERE nombre = ?"
+                        val statement: PreparedStatement = conexion.prepareStatement(query)
+                        statement.setInt(1, nuevaPuntuacion)
+                        statement.setString(2, usuario)
+                        statement.executeUpdate()
+                        statement.close()
+                    } catch (e: SQLException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        }.start()
     }
 }

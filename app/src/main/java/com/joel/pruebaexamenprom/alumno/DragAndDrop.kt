@@ -1,6 +1,7 @@
 package com.joel.pruebaexamenprom.alumno
 
 import android.content.ClipData
+import android.content.Context
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.View
@@ -9,12 +10,29 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.joel.pruebaexamenprom.R
+import com.joel.pruebaexamenprom.bbdd.ConexionDB
 
 class DragAndDrop : AppCompatActivity() {
+
+    private lateinit var conexionDB: ConexionDB
+    private var usuarioActual: String? = null  // Usuario que inició sesión
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.drag_and_drop)
+
+        // Inicializar conexión a la BD
+        conexionDB = ConexionDB(this)
+
+        // Obtener usuario desde SharedPreferences
+        val sharedPreferences = getSharedPreferences("AlumnoPrefs", Context.MODE_PRIVATE)
+        usuarioActual = sharedPreferences.getString("nombre_alumno", null)
+
+        if (usuarioActual == null) {
+            Toast.makeText(this, "Error: No se encontró el usuario", Toast.LENGTH_SHORT).show()
+            finish() // Cerrar la actividad si no hay usuario
+            return
+        }
 
         // Referencias a los TextViews
         val textA: TextView = findViewById(R.id.text_A)
@@ -57,10 +75,21 @@ class DragAndDrop : AppCompatActivity() {
                         Toast.makeText(this, "¡Correcto!", Toast.LENGTH_SHORT).show()
                         draggedView.visibility = View.GONE
                         target.visibility = View.GONE
+
+                        // Sumar 25 puntos al usuario
+                        usuarioActual?.let { usuario ->
+                            conexionDB.actualizarPuntuacion(usuario, 25)
+                        }
+
                     } else {
                         // Incorrecto: devolver la imagen a su estado original
                         Toast.makeText(this, "Incorrecto, intenta de nuevo", Toast.LENGTH_SHORT).show()
                         draggedView.visibility = View.VISIBLE
+
+                        // Restar 10 puntos, pero sin bajar de 0
+                        usuarioActual?.let { usuario ->
+                            conexionDB.actualizarPuntuacion(usuario, -10)
+                        }
                     }
                     true
                 }
