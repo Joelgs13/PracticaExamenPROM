@@ -48,10 +48,10 @@ class ConexionDB(context: Context) {
         if (conexion != null) {
             try {
                 val query =
-                    "INSERT INTO Alumno (nombre, contraseña, puntuacion, id_grupo) VALUES (?, ?, ?, ?)"
+                    "INSERT INTO Alumno (nombre, contrasenia, puntuacion, id_grupo) VALUES (?, ?, ?, ?)"
                 val statement: PreparedStatement = conexion.prepareStatement(query)
                 statement.setString(1, nombre)
-                statement.setString(2, usuario)  // Contraseña es igual al nombre en este ejemplo, puede cambiarse
+                statement.setString(2, usuario)  // Contrasenia es igual al nombre en este ejemplo, puede cambiarse
                 statement.setInt(3, puntuacion)
                 statement.setInt(4, idGrupo)
                 statement.executeUpdate()
@@ -86,6 +86,28 @@ class ConexionDB(context: Context) {
         return false
     }
 
+    fun selectAlumnoPorCredenciales(nombre: String, contrasenia: String): Boolean {
+        val conexion = obtenerConexion()
+        if (conexion != null) {
+            try {
+                val query = "SELECT COUNT(*) FROM Alumno WHERE nombre = ? AND contrasenia = ?"
+                val statement: PreparedStatement = conexion.prepareStatement(query)
+                statement.setString(1, nombre)
+                statement.setString(2, contrasenia)
+                val resultSet: ResultSet = statement.executeQuery()
+
+                if (resultSet.next() && resultSet.getInt(1) > 0) {
+                    return true
+                }
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } finally {
+                conexion.close()
+            }
+        }
+        return false
+    }
+
     // Función para obtener los datos de un Alumno
     fun selectAlumno(idAlumno: Int): String? {
         val conexion = obtenerConexion()
@@ -93,16 +115,16 @@ class ConexionDB(context: Context) {
 
         if (conexion != null) {
             try {
-                val query = "SELECT nombre, contraseña, puntuacion FROM Alumno WHERE id_alumno = ?"
+                val query = "SELECT nombre, contrasenia, puntuacion FROM Alumno WHERE id_alumno = ?"
                 val statement: PreparedStatement = conexion.prepareStatement(query)
                 statement.setInt(1, idAlumno)
                 val resultSet: ResultSet = statement.executeQuery()
 
                 if (resultSet.next()) {
                     val nombre = resultSet.getString("nombre")
-                    val contraseña = resultSet.getString("contraseña")
+                    val contrasenia = resultSet.getString("contrasenia")
                     val puntuacion = resultSet.getInt("puntuacion")
-                    alumno = "Nombre: $nombre, Contraseña: $contraseña, Puntuación: $puntuacion"
+                    alumno = "Nombre: $nombre, Contrasenia: $contrasenia, Puntuación: $puntuacion"
                 }
             } catch (e: SQLException) {
                 e.printStackTrace()

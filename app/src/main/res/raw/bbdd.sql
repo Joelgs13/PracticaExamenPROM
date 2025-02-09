@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS `Alumno`;
 CREATE TABLE `Alumno` (
   `id_alumno` INT AUTO_INCREMENT PRIMARY KEY,  -- Correcto en MariaDB
   `nombre` TEXT NOT NULL,
-  `contraseña` TEXT NOT NULL,
+  `contrasenia` TEXT NOT NULL,
   `puntuacion` INT NOT NULL,
   `id_grupo` INT,
   FOREIGN KEY (`id_grupo`) REFERENCES `Grupo` (`id_grupo`)
@@ -30,8 +30,8 @@ INSERT INTO `Grupo` (`nombre_grupo`) VALUES ('Grupo B');
 INSERT INTO `Grupo` (`nombre_grupo`) VALUES ('Grupo C');
 
 -- Insertar datos de ejemplo en la tabla Alumno
-INSERT INTO `Alumno` (`nombre`, `contraseña`, `puntuacion`, `id_grupo`) VALUES ('Juan Pérez', 'password123', 85, 1);
-INSERT INTO `Alumno` (`nombre`, `contraseña`, `puntuacion`, `id_grupo`) VALUES ('María López', 'password456', 90, 1);
-INSERT INTO `Alumno` (`nombre`, `contraseña`, `puntuacion`, `id_grupo`) VALUES ('Carlos Rodríguez', 'password789', 95, 2);
-INSERT INTO `Alumno` (`nombre`, `contraseña`, `puntuacion`, `id_grupo`) VALUES ('Ana García', 'password321', 80, 2);
-INSERT INTO `Alumno` (`nombre`, `contraseña`, `puntuacion`, `id_grupo`) VALUES ('Josefo Hernández', 'password654', 88, 3);
+INSERT INTO `Alumno` (`nombre`, `contrasenia`, `puntuacion`, `id_grupo`) VALUES ('Juan Pérez', 'password123', 85, 1);
+INSERT INTO `Alumno` (`nombre`, `contrasenia`, `puntuacion`, `id_grupo`) VALUES ('María López', 'password456', 90, 1);
+INSERT INTO `Alumno` (`nombre`, `contrasenia`, `puntuacion`, `id_grupo`) VALUES ('Carlos Rodríguez', 'password789', 95, 2);
+INSERT INTO `Alumno` (`nombre`, `contrasenia`, `puntuacion`, `id_grupo`) VALUES ('Ana García', 'password321', 80, 2);
+INSERT INTO `Alumno` (`nombre`, `contrasenia`, `puntuacion`, `id_grupo`) VALUES ('Josefo Hernández', 'password654', 88, 3);
