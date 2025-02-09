@@ -42,18 +42,18 @@ class ConexionDB(context: Context) {
         }
     }
 
-    // Función para insertar un nuevo Alumno en la tabla Alumno
-    fun insertAlumno(usuario: String, nombre: String, puntuacion: Int, idGrupo: Int): Boolean {
+    // Modificamos la función insertAlumno para cumplir con los requisitos
+    fun insertAlumno(usuario: String, contrasenia: String): Boolean {
         val conexion = obtenerConexion()
         if (conexion != null) {
             try {
                 val query =
                     "INSERT INTO Alumno (nombre, contrasenia, puntuacion, id_grupo) VALUES (?, ?, ?, ?)"
                 val statement: PreparedStatement = conexion.prepareStatement(query)
-                statement.setString(1, nombre)
-                statement.setString(2, usuario)  // Contrasenia es igual al nombre en este ejemplo, puede cambiarse
-                statement.setInt(3, puntuacion)
-                statement.setInt(4, idGrupo)
+                statement.setString(1, usuario)
+                statement.setString(2, contrasenia)  // Usamos el nombre de usuario como contraseña
+                statement.setInt(3, 0)  // Puntuación inicializada a 0
+                statement.setNull(4, java.sql.Types.NULL)  // id_grupo será NULL
                 statement.executeUpdate()
                 return true
             } catch (e: SQLException) {
@@ -65,6 +65,30 @@ class ConexionDB(context: Context) {
         }
         return false
     }
+
+    fun alumnoExiste(usuario: String, contrasenia: String): Boolean {
+        val conexion = obtenerConexion()
+        if (conexion != null) {
+            try {
+                // Consulta para verificar si ya existe un alumno con las mismas credenciales
+                val query = "SELECT COUNT(*) FROM Alumno WHERE nombre = ? AND contrasenia = ?"
+                val statement: PreparedStatement = conexion.prepareStatement(query)
+                statement.setString(1, usuario)
+                statement.setString(2, contrasenia)
+                val resultSet: ResultSet = statement.executeQuery()
+
+                if (resultSet.next() && resultSet.getInt(1) > 0) {
+                    return true  // El alumno ya existe
+                }
+            } catch (e: SQLException) {
+                e.printStackTrace()
+            } finally {
+                conexion.close()
+            }
+        }
+        return false  // El alumno no existe
+    }
+
 
     // Función para insertar un nuevo Grupo en la tabla Grupo
     fun insertGrupo(nombreGrupo: String): Boolean {
