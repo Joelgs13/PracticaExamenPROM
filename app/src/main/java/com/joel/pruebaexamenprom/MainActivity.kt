@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.joel.pruebaexamenprom.alumno.MenuAlumno
 import com.joel.pruebaexamenprom.bbdd.ConexionDB
 import com.joel.pruebaexamenprom.profesor.MenuProfesor
+import com.joel.pruebaexamenprom.models.Alumno
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,13 +51,26 @@ class MainActivity : AppCompatActivity() {
     private fun verificarAlumno(usuario: String, contrasena: String, callback: (Boolean) -> Unit) {
         Thread {
             val conexionDB = ConexionDB(this)
-            val resultado = conexionDB.selectAlumnoPorCredenciales(usuario, contrasena)
+            val alumno = conexionDB.selectAlumnoPorCredenciales(usuario, contrasena)
 
-            // Usamos el callback para devolver el resultado al hilo principal
             runOnUiThread {
-                callback(resultado)
+                if (alumno != null) {
+                    // Guardar datos del alumno logueado en SharedPreferences
+                    val sharedPreferences = getSharedPreferences("AlumnoPrefs", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putInt("id_alumno", alumno.idAlumno) // Usar idAlumno en lugar de id
+                    editor.putInt("id_grupo", alumno.idGrupo ?: -1) // Manejar idGrupo nulo con -1
+                    editor.putString("nombre_alumno", alumno.nombre)
+                    editor.apply()
+
+                    callback(true)
+                } else {
+                    callback(false)
+                }
             }
         }.start()
     }
+
+
 
 }

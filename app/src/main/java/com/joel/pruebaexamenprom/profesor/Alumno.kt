@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.joel.pruebaexamenprom.R
-
-data class Alumno(val nombre: String, val puntuacion: Int)
+import com.joel.pruebaexamenprom.models.Alumno  // Usar la clase correcta de models
 
 class AlumnoAdapter(private val alumnos: List<Alumno>) : RecyclerView.Adapter<AlumnoAdapter.AlumnoViewHolder>() {
 

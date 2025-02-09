@@ -1,7 +1,7 @@
 package com.joel.pruebaexamenprom.bbdd
 
 import android.content.Context
-import com.joel.pruebaexamenprom.profesor.Alumno
+import com.joel.pruebaexamenprom.models.Alumno
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.PreparedStatement
@@ -135,18 +135,26 @@ class ConexionDB(context: Context) {
     }
 
 
-    fun selectAlumnoPorCredenciales(nombre: String, contrasenia: String): Boolean {
+    fun selectAlumnoPorCredenciales(nombre: String, contrasenia: String): Alumno? {
         val conexion = obtenerConexion()
+        var alumno: Alumno? = null
+
         if (conexion != null) {
             try {
-                val query = "SELECT COUNT(*) FROM Alumno WHERE nombre = ? AND contrasenia = ?"
+                val query = "SELECT id_alumno, nombre, contrasenia, puntuacion, id_grupo FROM Alumno WHERE nombre = ? AND contrasenia = ?"
                 val statement: PreparedStatement = conexion.prepareStatement(query)
                 statement.setString(1, nombre)
                 statement.setString(2, contrasenia)
                 val resultSet: ResultSet = statement.executeQuery()
 
-                if (resultSet.next() && resultSet.getInt(1) > 0) {
-                    return true
+                if (resultSet.next()) {
+                    alumno = Alumno(
+                        idAlumno = resultSet.getInt("id_alumno"),
+                        nombre = resultSet.getString("nombre"),
+                        contraseña = resultSet.getString("contrasenia"),  // Usar "contrasenia" en lugar de "contraseña"
+                        puntuacion = resultSet.getInt("puntuacion"),
+                        idGrupo = if (resultSet.getObject("id_grupo") != null) resultSet.getInt("id_grupo") else null
+                    )
                 }
             } catch (e: SQLException) {
                 e.printStackTrace()
@@ -154,8 +162,12 @@ class ConexionDB(context: Context) {
                 conexion.close()
             }
         }
-        return false
+
+        return alumno
     }
+
+
+
 
 
 
@@ -271,22 +283,26 @@ class ConexionDB(context: Context) {
         return null  // Devuelve null si no encuentra el grupo
     }
 
-    // Función para obtener los alumnos de un grupo específico
     fun obtenerAlumnosPorGrupo(idGrupo: Int): List<Alumno> {
         val conexion = obtenerConexion()
         val listaAlumnos = mutableListOf<Alumno>()
 
         if (conexion != null) {
             try {
-                val query = "SELECT nombre, puntuacion FROM Alumno WHERE id_grupo = ?"
+                val query = "SELECT id_alumno, nombre, contrasenia, puntuacion, id_grupo FROM Alumno WHERE id_grupo = ?"
                 val statement: PreparedStatement = conexion.prepareStatement(query)
                 statement.setInt(1, idGrupo)
                 val resultSet: ResultSet = statement.executeQuery()
 
                 while (resultSet.next()) {
-                    val nombre = resultSet.getString("nombre")
-                    val puntuacion = resultSet.getInt("puntuacion")
-                    listaAlumnos.add(Alumno(nombre, puntuacion))
+                    val alumno = Alumno(
+                        idAlumno = resultSet.getInt("id_alumno"),
+                        nombre = resultSet.getString("nombre"),
+                        contraseña = resultSet.getString("contrasenia"),
+                        puntuacion = resultSet.getInt("puntuacion"),
+                        idGrupo = if (resultSet.getObject("id_grupo") != null) resultSet.getInt("id_grupo") else null
+                    )
+                    listaAlumnos.add(alumno)
                 }
             } catch (e: SQLException) {
                 e.printStackTrace()
@@ -294,8 +310,10 @@ class ConexionDB(context: Context) {
                 conexion.close()
             }
         }
+
         return listaAlumnos
     }
+
 
 
     // Función para actualizar un Alumno
